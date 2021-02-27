@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bill_tracker/mamba_components/reuseable_card_bill.dart';
 import 'package:bill_tracker/mamba_components/bottom_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Bill extends StatelessWidget {
   double _amount = 0;
@@ -29,11 +31,20 @@ class Bill extends StatelessWidget {
     return _amount.toStringAsFixed(2);
   }
 
+  Future pushme() async {
+    var user = await FirebaseAuth.instance.currentUser();
+    var uid = user.uid;
+    String d = getFinalAmount();
+    return d;
+  }
+
   @override
   Widget build(BuildContext context) {
     var a = getAmountWithoutGst();
     var b = getGst();
     var c = getFinalAmount();
+    pushme();
+
     var widget = Container(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -125,7 +136,7 @@ class Bill extends StatelessWidget {
               width: 150,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.pop(context, '1');
+                  Navigator.pop(context, c);
                 },
                 child: Text(
                   'Confirm Bill',

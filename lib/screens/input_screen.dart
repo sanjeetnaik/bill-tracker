@@ -84,6 +84,19 @@ class _InputScreenState extends State<InputScreen> {
                     onPressed: () async {
                       var user = await FirebaseAuth.instance.currentUser();
                       var uid = user.uid;
+
+                      var hello = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Bill(
+                            quantity: lsoquantity,
+                            productName: lsoprodname,
+                            price: lsoprice,
+                            bill: lsowidgets,
+                          ),
+                        ),
+                      );
+
                       if (widget.isadd && lsowidgets.length != 0) {
                         FocusScope.of(context).unfocus();
                         Firestore.instance
@@ -94,20 +107,10 @@ class _InputScreenState extends State<InputScreen> {
                           'productNames': lsoprodname,
                           'prices': lsoprice,
                           'quantity': lsoquantity,
+                          'total': hello
                         });
-                        var hello = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Bill(
-                              quantity: lsoquantity,
-                              productName: lsoprodname,
-                              price: lsoprice,
-                              bill: lsowidgets,
-                            ),
-                          ),
-                        );
 
-                        if (hello == '1') {
+                        if (hello != null) {
                           Navigator.pop(context);
                         }
                       }

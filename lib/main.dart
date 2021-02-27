@@ -1,3 +1,4 @@
+import 'package:bill_tracker/home.dart';
 import 'package:bill_tracker/screens/homepage.dart';
 import 'package:bill_tracker/screens/input_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.onAuthStateChanged,
         builder: (ctx, userSnapshot) {
           if (userSnapshot.hasData) {
-            return HomePage();
+            return Home();
           } else {
             return AuthScreen();
           }
